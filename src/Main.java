@@ -63,6 +63,11 @@ public class Main {
         System.out.print("title: ");
         String title = scanner.nextLine();
 
+        if (title.isBlank()) {
+            System.out.println("not empty, please");
+            return;
+        }
+
         System.out.print("description: ");
         String description = scanner.nextLine();
 
@@ -91,34 +96,46 @@ public class Main {
         }
 
         System.out.print("task id: ");
-        int id = Integer.parseInt(scanner.nextLine());
 
-        for (Task task : tasks) {
-            if (task.getId() == id) {
-                task.setStatus("completed!");
-                System.out.println("task marked as completed");
-                return;
+        try {
+            int id = Integer.parseInt(scanner.nextLine());
+
+            for (Task task : tasks) {
+                if (task.getId() == id) {
+                    task.setStatus("completed!");
+                    System.out.println("task marked as completed");
+                    return;
+                }
             }
+
+            System.out.println("can't find task with this id");
+        } catch (NumberFormatException e) {
+            System.out.println("please enter a number");
         }
-        System.out.println("can't find task with this id");
     }
     public static void deleteTask() {
         if (tasks.isEmpty()) {
             System.out.println("no tasks available");
             return;
         }
+
         System.out.print("task id: ");
-        int id = Integer.parseInt(scanner.nextLine());
 
-        for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).getId() == id) {
-                tasks.remove(i);
-                System.out.println("task deleted");
-                return;
+        try {
+            int id = Integer.parseInt(scanner.nextLine());
+
+            for (int i = 0; i < tasks.size(); i++) {
+                if (tasks.get(i).getId() == id) {
+                    tasks.remove(i);
+                    System.out.println("task deleted");
+                    return;
+                }
             }
-        }
 
-        System.out.println("can't find task with this id");
+            System.out.println("can't find task with this id");
+        } catch (NumberFormatException e) {
+            System.out.println("please enter a number");
+        }
     }
     public static void saveTasks() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
