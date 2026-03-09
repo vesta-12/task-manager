@@ -24,6 +24,9 @@ public class Main {
                 case "3":
                     markTaskCompleted();
                     break;
+                case "4":
+                    deleteTask();
+                    break;
                 case "0":
                     System.out.println("program closed");
                     running = false;
@@ -39,6 +42,7 @@ public class Main {
         System.out.println("1) add task");
         System.out.println("2) list tasks");
         System.out.println("3) mark task as completed");
+        System.out.println("4) delete task");
         System.out.println("0) exit");
         System.out.print("choose: ");
     }
@@ -84,6 +88,24 @@ public class Main {
                 return;
             }
         }
+        System.out.println("can't find task with this id");
+    }
+    public static void deleteTask() {
+        if (tasks.isEmpty()) {
+            System.out.println("no tasks available");
+            return;
+        }
+        System.out.print("task id: ");
+        int id = Integer.parseInt(scanner.nextLine());
+
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getId() == id) {
+                tasks.remove(i);
+                System.out.println("task deleted");
+                return;
+            }
+        }
+
         System.out.println("can't find task with this id");
     }
 }
