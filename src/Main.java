@@ -1,13 +1,15 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 public class Main {
 
     static List<Task> tasks = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
+    static final String FILE_NAME = "my_tasks.csv";
 
     public static void main(String[] args) {
+        loadTasks();
         boolean running = true;
 
         while (running) {
@@ -27,7 +29,15 @@ public class Main {
                 case "4":
                     deleteTask();
                     break;
+                case "5":
+                    saveTasks();
+                    break;
+                case "6":
+                    loadTasks();
+                    System.out.println("tasks loaded from file");
+                    break;
                 case "0":
+                    saveTasks();
                     System.out.println("program closed");
                     running = false;
                     break;
@@ -43,6 +53,8 @@ public class Main {
         System.out.println("2) list tasks");
         System.out.println("3) mark task as completed");
         System.out.println("4) delete task");
+        System.out.println("5) save to file");
+        System.out.println("6) load from file");
         System.out.println("0) exit");
         System.out.print("choose: ");
     }
@@ -54,7 +66,7 @@ public class Main {
         System.out.print("description: ");
         String description = scanner.nextLine();
 
-        int id = tasks.size() + 1;
+        int id = getNextId();
         Task task = new Task(id, title, description, "pending");
         tasks.add(task);
 
@@ -107,5 +119,54 @@ public class Main {
         }
 
         System.out.println("can't find task with this id");
+    }
+    public static void saveTasks() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
+            for (Task task : tasks) {
+                writer.write(task.toFileString());
+                writer.newLine();
+            }
+            System.out.println("tasks saved to file");
+        } catch (IOException e) {
+            System.out.println("error");
+        }
+    }
+    public static void loadTasks() {
+        tasks.clear();
+
+        File file = new File(FILE_NAME);
+        if (!file.exists()) {
+            return;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(";", 4);
+
+                if (parts.length == 4) {
+                    int id = Integer.parseInt(parts[0]);
+                    String title = parts[1];
+                    String description = parts[2];
+                    String status = parts[3];
+
+                    tasks.add(new Task(id, title, description, status));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("error");
+        }
+    }
+    public static int getNextId() {
+        int maxId = 0;
+
+        for (Task task : tasks) {
+            if (task.getId() > maxId) {
+                maxId = task.getId();
+            }
+        }
+
+        return maxId + 1;
     }
 }

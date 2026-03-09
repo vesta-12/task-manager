@@ -32,7 +32,7 @@ public class Task {
     }
 
     public String toFileString() {
-        return id + "," + title + "," + description + "," + status;
+        return id + ";" + title + ";" + description + ";" + status;
     }
 
     @Override
