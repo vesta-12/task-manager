@@ -1,15 +1,67 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+public class Main {
+
+    static List<Task> tasks = new ArrayList<>();
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        boolean running = true;
+
+        while (running) {
+            showMenu();
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    addTask();
+                    break;
+                case "2":
+                    listTasks();
+                    break;
+                case "0":
+                    System.out.println("program closed.");
+                    running = false;
+                    break;
+                default:
+                    System.out.println("invalid choice. try again.");
+            }
+        }
+    }
+
+    public static void showMenu() {
+        System.out.println("\nmy task manager");
+        System.out.println("1) add task");
+        System.out.println("2) list tasks");
+        System.out.println("0) exit");
+        System.out.print("choose: ");
+    }
+
+    public static void addTask() {
+        System.out.print("title: ");
+        String title = scanner.nextLine();
+
+        System.out.print("description: ");
+        String description = scanner.nextLine();
+
+        int id = tasks.size() + 1;
+        Task task = new Task(id, title, description, "pending");
+        tasks.add(task);
+
+        System.out.println("task added.");
+    }
+
+    public static void listTasks() {
+        if (tasks.isEmpty()) {
+            System.out.println("no tasks found.");
+            return;
+        }
+
+        System.out.println("\ntask list");
+        for (Task task : tasks) {
+            System.out.println(task);
         }
     }
 }
