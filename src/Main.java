@@ -21,12 +21,15 @@ public class Main {
                 case "2":
                     listTasks();
                     break;
+                case "3":
+                    markTaskCompleted();
+                    break;
                 case "0":
-                    System.out.println("program closed.");
+                    System.out.println("program closed");
                     running = false;
                     break;
                 default:
-                    System.out.println("invalid choice. try again.");
+                    System.out.println("invalid choice. try again");
             }
         }
     }
@@ -35,6 +38,7 @@ public class Main {
         System.out.println("\nmy task manager");
         System.out.println("1) add task");
         System.out.println("2) list tasks");
+        System.out.println("3) mark task as completed");
         System.out.println("0) exit");
         System.out.print("choose: ");
     }
@@ -50,12 +54,12 @@ public class Main {
         Task task = new Task(id, title, description, "pending");
         tasks.add(task);
 
-        System.out.println("task added.");
+        System.out.println("task added");
     }
 
     public static void listTasks() {
         if (tasks.isEmpty()) {
-            System.out.println("no tasks found.");
+            System.out.println("no tasks found");
             return;
         }
 
@@ -63,5 +67,23 @@ public class Main {
         for (Task task : tasks) {
             System.out.println(task);
         }
+    }
+    public static void markTaskCompleted() {
+        if (tasks.isEmpty()) {
+            System.out.println("no tasks available");
+            return;
+        }
+
+        System.out.print("task id: ");
+        int id = Integer.parseInt(scanner.nextLine());
+
+        for (Task task : tasks) {
+            if (task.getId() == id) {
+                task.setStatus("completed!");
+                System.out.println("task marked as completed");
+                return;
+            }
+        }
+        System.out.println("can't find task with this id");
     }
 }
