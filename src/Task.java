@@ -39,4 +39,7 @@ public class Task {
     public String toString() {
         return id + ". " + title + " (" + description + ") - " + status;
     }
+
+    public void setTitle(String newTitle) {
+    }
 }

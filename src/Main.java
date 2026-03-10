@@ -36,6 +36,9 @@ public class Main {
                     loadTasks();
                     System.out.println("tasks loaded from file");
                     break;
+                case "7":
+                    editTask();
+                    break;
                 case "0":
                     saveTasks();
                     System.out.println("program closed");
@@ -55,6 +58,7 @@ public class Main {
         System.out.println("4) delete task");
         System.out.println("5) save to file");
         System.out.println("6) load from file");
+        System.out.println("7) edit");
         System.out.println("0) exit");
         System.out.print("choose: ");
     }
@@ -185,5 +189,38 @@ public class Main {
         }
 
         return maxId + 1;
+    }
+    public static void editTask() {
+        if (tasks.isEmpty()) {
+            System.out.println("no tasks available.");
+            return;
+        }
+
+        System.out.print("task id: ");
+
+        try {
+            int id = Integer.parseInt(scanner.nextLine());
+            for (Task task : tasks) {
+                if (task.getId() == id) {
+
+                    System.out.println(task.getTitle());
+
+                    System.out.print("new title: ");
+                    String newTitle = scanner.nextLine();
+
+                    if (!newTitle.isBlank()) {
+                        task.setTitle(newTitle);
+                    }
+
+                    System.out.println("updated");
+                    return;
+                }
+            }
+
+            System.out.println("can't find task with this id");
+
+        } catch (NumberFormatException e) {
+            System.out.println("error");
+        }
     }
 }
