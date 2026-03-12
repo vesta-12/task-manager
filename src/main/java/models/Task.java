@@ -1,17 +1,21 @@
-public class Task {
-    private int id;
-    private String title;
-    private String description;
-    private String status;
+package models;
 
-    public Task(int id, String title, String description, String status) {
+import enums.TaskStatus;
+
+public class Task {
+    private final String id;
+    private final String title;
+    private final String description;
+    private TaskStatus status;
+
+    public Task(String id, String title, String description, TaskStatus status) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -23,11 +27,11 @@ public class Task {
         return description;
     }
 
-    public String getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
